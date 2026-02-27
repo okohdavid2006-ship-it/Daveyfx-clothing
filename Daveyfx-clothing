@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Davey FX Clothing</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    :root {
+      --primary:#0f172a;
+      --accent:#22c55e;
+      --bg:#f1f5f9;
+      --card:#ffffff;
+      --text:#0f172a;
+      --muted:#64748b;
+      --dark-bg:#0b1220;
+      --dark-card:#111827;
+      --dark-text:#e5e7eb;
+    }
+
+    body {
+      margin:0;
+      font-family: Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    .dark body {
+      background: var(--dark-bg);
+      color: var(--dark-text);
+    }
+
+    header {
+      position:relative;
+      background: linear-gradient(135deg,#0f172a,#1e293b);
+      color:#fff;
+      padding:20px;
+      text-align:center;
+      overflow:visible;
+    }
+
+    header h1 { margin:0; font-size:26px; }
+    header p { margin:6px 0 0; font-size:13px; color:#cbd5f5; }
+
+    .circle {
+      position:absolute;
+      top:10px;
+      left:-120px;
+      width:90px;
+      height:90px;
+      border-radius:50%;
+      border:5px solid rgba(255,255,255,.4);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:10px;
+      font-weight:bold;
+      animation: moveRight 8s linear infinite;
+    }
+
+    @keyframes moveRight {
+      0% { left:-120px; }
+      100% { left:calc(100% + 10px); }
+    }
+
+    .container {
+      max-width:1000px;
+      margin:16px auto;
+      padding:0 12px;
+    }
+
+    .top-actions {
+      display:flex;
+      gap:8px;
+      justify-content:center;
+      flex-wrap:wrap;
+      margin-bottom:12px;
+    }
+
+    .top-actions button, .top-actions input {
+      padding:8px 10px;
+      border-radius:8px;
+      border:none;
+    }
+
+    .top-actions button {
+      background:var(--primary);
+      color:#fff;
+    }
+
+    .filters {
+      display:flex;
+      gap:6px;
+      flex-wrap:wrap;
+      justify-content:center;
+      margin-bottom:12px;
+    }
+
+    .filters button {
+      padding:6px 10px;
+      border:none;
+      border-radius:6px;
+      background:var(--accent);
+      color:#fff;
+    }
+
+    .products {
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+      gap:12px;
+    }
+
+    .card {
+      background:var(--card);
+      border-radius:12px;
+      padding:10px;
+      box-shadow:0 6px 16px rgba(0,0,0,.1);
+      position:relative;
+    }
+
+    .dark .card {
+      background:var(--dark-card);
+    }
+
+    .card img {
+      width:100%;
+      border-radius:8px;
+      height:160px;
+      object-fit:cover;
+    }
+
+    .price {
+      color:var(--accent);
+      font-weight:bold;
+    }
+
+    .qty {
+      width:60px;
+      padding:4px;
+      margin-top:4px;
+    }
+
+    .discount {
+      position:absolute;
+      top:6px;
+      left:6px;
+      background:#ef4444;
+      color:#fff;
+      font-size:11px;
+      padding:2px 6px;
+      border-radius:6px;
+    }
+
+    .cart {
+      position:fixed;
+      right:0;
+      top:0;
+      height:100%;
+      width:0;
+      background:#fff;
+      overflow:hidden;
+      transition:.3s;
+      padding:12px;
+      box-shadow:-6px 0 16px rgba(0,0,0,.2);
+      z-index:5;
+    }
+
+    .cart.open {
+      width:80%;
+    }
+
+    .cart-item {
+      border-bottom:1px solid #e5e7eb;
+      padding:6px 0;
+      font-size:14px;
+    }
+
+    .modal {
+      position:fixed;
+      inset:0;
+      background:rgba(0,0,0,.5);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      z-index:6;
+    }
+
+    .box {
+      background:#fff;
+      padding:16px;
+      border-radius:12px;
+      width:90%;
+      max-width:400px;
+    }
+
+    .box input {
+      width:100%;
+      padding:8px;
+      margin-bottom:8px;
+    }
+
+    .bot {
+      margin-top:20px;
+      border-top:2px solid #e5e7eb;
+      padding-top:12px;
+    }
+
+    .bot textarea {
+      width:100%;
+      padding:8px;
+      border-radius:8px;
+    }
+
+    .whatsapp {
+      position:fixed;
+      bottom:14px;
+      right:14px;
+      background:#25d366;
+      color:#fff;
+      padding:12px;
+      border-radius:50%;
+      font-size:18px;
+    }
+
+    .dark-toggle {
+      position:fixed;
+      top:14px;
+      right:14px;
+      background:var(--accent);
+      color:#fff;
+      padding:8px;
+      border-radius:50%;
+    }
+
+    footer {
+      text-align:center;
+      font-size:12px;
+      color:var(--muted);
+      margin:20px 0;
+    }
+
+    .time {
+      text-align:center;
+      font-size:12px;
+      color:var(--muted);
+      margin-top:6px;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Davey FX Clothing</h1>
+  <p>Order premium fashion online</p>
+  <div class="circle">Davey FX Clothing</div>
+</header>
+
+<div class="dark-toggle" onclick="toggleDark()">🌓</div>
+
+<div class="container">
+
+  <div class="top-actions">
+    <button onclick="showLogin()">Login</button>
+    <button onclick="showRegister()">Create Account</button>
+    <input id="search" placeholder="Search products" oninput="searchProducts()">
+    <button onclick="toggleCart()">Cart</button>
+  </div>
+
+  <div class="filters">
+    <button onclick="filterBrand('all')">All</button>
+    <button onclick="filterBrand('Dior')">Dior</button>
+    <button onclick="filterBrand('Louis Vuitton')">Louis Vuitton</button>
+    <button onclick="filterBrand('Gucci')">Gucci</button>
+    <button onclick="filterBrand('Nike')">Nike</button>
+    <button onclick="filterBrand('Adidas')">Adidas</button>
+    <button onclick="filterBrand('Chanel')">Chanel</button>
+  </div>
+
+  <div class="products" id="products"></div>
+
+  <div class="bot">
+    <h3>Customer Care Bot</h3>
+    <textarea id="q" placeholder="Ask about prices or delivery"></textarea>
+    <button onclick="bot()">Send</button>
+    <div id="a"></div>
+  </div>
+
+  <div class="time" id="time"></div>
+
+</div>
+
+<div class="cart" id="cart">
+  <h3>Your Cart</h3>
+  <div id="cartItems"></div>
+  <button onclick="showCheckout()">Checkout</button>
+  <button onclick="toggleCart()">Close</button>
+</div>
+
+<div class="modal" id="login">
+  <div class="box">
+    <h3>Login</h3>
+    <input placeholder="Email">
+    <input placeholder="Password" type="password">
+    <button onclick="closeModal('login')">Login</button>
+  </div>
+</div>
+
+<div class="modal" id="register">
+  <div class="box">
+    <h3>Create Account</h3>
+    <input placeholder="Name">
+    <input placeholder="Email">
+    <input placeholder="Password" type="password">
+    <button onclick="closeModal('register')">Create</button>
+  </div>
+</div>
+
+<div class="modal" id="checkout">
+  <div class="box">
+    <h3>Checkout</h3>
+    <input placeholder="Your name">
+    <input placeholder="Your email">
+    <button onclick="pay()">Pay Now</button>
+    <button onclick="closeModal('checkout')">Cancel</button>
+  </div>
+</div>
+
+<a class="whatsapp" href="https://wa.me/2348130334884">💬</a>
+
+<footer>
+  Contact: okohdavidchika@gmail.com
+</footer>
+
+<script>
+  const items = [
+    {brand:"Dior", name:"Dior Jacket", price:450, img:"https://images.pexels.com/photos/2983464/pexels-photo-2983464.jpeg"},
+    {brand:"Louis Vuitton", name:"LV Bag", price:780, img:"https://images.pexels.com/photos/461428/pexels-photo-461428.jpeg"},
+    {brand:"Gucci", name:"Gucci Sneakers", price:520, img:"https://images.pexels.com/photos/2529148/pexels-photo-2529148.jpeg"},
+    {brand:"Nike", name:"Nike T-Shirt", price:75, img:"https://images.pexels.com/photos/428338/pexels-photo-428338.jpeg"},
+    {brand:"Adidas", name:"Adidas Hoodie", price:120, img:"https://images.pexels.com/photos/1005413/pexels-photo-1005413.jpeg"},
+    {brand:"Chanel", name:"Chanel Cap", price:160, img:"https://images.pexels.com/photos/2983467/pexels-photo-2983467.jpeg"}
+  ];
+
+  let cart = [];
+  let currentFilter = "all";
+
+  function render(list) {
+    document.getElementById("products").innerHTML = list.map((i,idx)=>`
+      <div class="card">
+        <div class="discount">-10%</div>
+        <img src="${i.img}">
+        <h4>${i.name}</h4>
+        <div class="price">$${i.price}</div>
+        <input class="qty" type="number" value="1" min="1" id="q${idx}">
+        <button onclick="add(${idx})">Add to cart</button>
+      </div>
+    `).join("");
+  }
+
+  function add(i) {
+    const qty = parseInt(document.getElementById("q"+i).value || 1);
+    for(let x=0;x<qty;x++){ cart.push(items[i]); }
+    toggleCart(true);
+    showCart();
+  }
+
+  function showCart() {
+    document.getElementById("cartItems").innerHTML = cart.map(i=>`
+      <div class="cart-item">${i.name} - $${i.price}</div>
+    `).join("");
+  }
+
+  function toggleCart(force) {
+    const c = document.getElementById("cart");
+    if(force) { c.classList.add("open"); return; }
+    c.classList.toggle("open");
+  }
+
+  function showLogin(){ document.getElementById("login").style.display="flex"; }
+  function showRegister(){ document.getElementById("register").style.display="flex"; }
+  function showCheckout(){ document.getElementById("checkout").style.display="flex"; }
+
+  function closeModal(id){ document.getElementById(id).style.display="none"; }
+
+  function pay(){
+    alert("Payment recorded. Order saved.");
+    closeModal("checkout");
+  }
+
+  function bot(){
+    const q=document.getElementById("q").value.toLowerCase();
+    let a="Ask about prices or delivery.";
+    if(q.includes("price")) a="Prices show under each item.";
+    if(q.includes("delivery")) a="Delivery takes 24 to 72 hours.";
+    document.getElementById("a").innerText=a;
+  }
+
+  function filterBrand(b){
+    currentFilter=b;
+    const list = b==="all" ? items : items.filter(i=>i.brand===b);
+    render(list);
+  }
+
+  function searchProducts(){
+    const s = document.getElementById("search").value.toLowerCase();
+    const list = items.filter(i=> i.name.toLowerCase().includes(s));
+    render(list);
+  }
+
+  function toggleDark(){
+    document.documentElement.classList.toggle("dark");
+  }
+
+  function updateTime(){
+    document.getElementById("time").innerText = new Date().toLocaleString();
+  }
+  setInterval(updateTime,1000);
+
+  render(items);
+</script>
+
+</body>
+</html>
